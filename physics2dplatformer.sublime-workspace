@@ -12,28 +12,54 @@
 	"buffers":
 	[
 		{
+			"contents": "\n#include <SDL2/SDL.h>\n#include <SDL2/SDL_image.h>\n#include <iostream>\n#include <vector>\n#include <stdlib.h>\n\n#include \"GameSettings.hpp\"\n#include \"RenderWindow.hpp\"\n#include \"SnakeBody.hpp\"\n#include \"InputHandler.hpp\"\n#include \"EventHandler.hpp\"\n\n\n\n\n\nstd::vector<SDL_Event>& GetFrameEvents()\n{\n    static std::vector<SDL_Event> frame_events;\n    return frame_events;\n}\n\n\n\n\nint main(int argc, char* args[]){\n\nSDL_Init(SDL_INIT_VIDEO);\nIMG_Init(IMG_INIT_PNG);\n\n//int facingDirection = 0;  //0 right, 1 down, 2 left, 3 up\nsrand( time(NULL) );\nint score = 0;\n\n\n\n\n\n\n\nRenderWindow window;\nEntity playerEntity(screenW/2, screenH/2, window.loadTexture(\"res/gfx/rectangle.png\"));\n\n\n\n\n\nEntity cherry(rand()%(screenW-64), rand()% (screenH-64), window.loadTexture(\"res/gfx/cherry.png\"));\n\n\n\nunsigned int lastTime = 0, currentTime;\n\n\nwhile (gameRunning)\n{\n        \n        currentTime = SDL_GetTicks();\n        if (currentTime > (lastTime + 1000/fps))/*fps*/\n            {\n\n        //std::cout<< \"frame passed: \"<< currentTime <<std::endl;\n        window.clear();\n        window.render(cherry);\n        window.render(playerEntity);\n        window.display();\n        playerMov.fall();\n        while (SDL_PollEvent(&input.event))\n        {\nSD        switch (input.event.type)\n            {\n                case SDL_QUIT:\n                    gameRunning=false;;\n                    break;\n\n                case SDL_KEYDOWN:\n                    if(input.event.key.keysym.sym==SDLK_a)\n                        {playerMov.moveLeft();}\n                    if(input.event.key.keysym.sym==SDLK_d)\n                        {playerMov.moveRight();}\n                    break;\n                case SDL_KEYUP:\n                      break;\n            }\n\n\n                    //input.handleKeyboardEvent();\n                }\n            \n\nlastTime = currentTime;\n    GetFrameEvents().clear();\n            }\n\n       \n\n\n\n\n        }   //input.keyAction();\n    \n\n   \n    \n    \n\n\n\n\n\n\n\n\n \n\nreturn 0;\n}",
 			"file": "src/main.cpp",
+			"file_size": 1998,
+			"file_write_time": 133033193782692322,
 			"settings":
 			{
-				"buffer_size": 1586,
+				"buffer_size": 1967,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "include/RenderWindow.hpp",
+			"contents": "#include \"MovementHandler.hpp\"\n#include \"GameSettings.hpp\"\n#include <iostream>\n\nMovementHandler::MovementHandler(Entity& p_entity)\n:entityPosX(p_entity.getDst().x), entityPosY(p_entity.getDst().y), entity(p_entity)\n{}\n\nvoid MovementHandler::moveLeft()\n{\n\tentityPosX = entityPosX - velocity;\n\tentity.changeX(entityPosX);\n}\nvoid MovementHandler::moveRight()\n{\n\tentityPosX = entityPosX + velocity;\n\tentity.changeX(entityPosX);\n}\nvoid MovementHandler::jump()\n{\n\t\n}\n\n\nvoid MovementHandler::move()\n{\n\tif(isMovingLeft==1)\n\t\tmoveLeft();\n\tif(isMovingRight==1)\n\t\tmoveRight();\n}\n\n\nvoid MovementHandler::fall()\n{\n\t\n\tif (entity.getDst().y+0.5*gravity*time*time <screenH-64)\n\t\t{time ++;\n\t\t\tentityPosY = entityPosY +0.5*gravity*time*time;\n\t\tentity.changeY(entityPosY);}\n\tstd::cout << entity.getDst().y << std::endl;\n}\n",
+			"file": "src/movementhandler.cpp",
+			"file_size": 803,
+			"file_write_time": 133032519763625674,
 			"settings":
 			{
-				"buffer_size": 417,
+				"buffer_size": 803,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/eventhandler.cpp",
+			"settings":
+			{
+				"buffer_size": 486,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/renderwindow.cpp",
+			"file": "include/EventHandler.hpp",
 			"settings":
 			{
-				"buffer_size": 1159,
+				"buffer_size": 209,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "#pragma once\n\n#include <SDL2/SDL.h>\n#include <MovementHandler.hpp>\n\nstruct InputHandler\n{\npublic:\n\t\n\tInputHandler();\n\tvoid keyAction();\n\tvoid handleKeyboardEvent();\n\t\n\t// bool isPressed(keyCode) {\n //        return (keyState[keyCode] == PRESSED);\n //    }\n\n //    bool isReleased(keyCode) {\n //        return (keyState[keyCode] == RELEASED);\n //    }\n\n\n\n\t// keyState[];\nprivate:\n\t// bool aPressed;\n\t// bool bPressed;\n\t// const SDL_Keycode kbW = SDLK_w;\n\t// const SDL_Keycode kbS = SDLK_s;\n\t// const SDL_Keycode kbA = SDLK_a;\n\t// const SDL_Keycode kbD = SDLK_d;\n\t// const SDL_Keycode kbSpace = SDLK_SPACE;\n\t\n\t\n};",
+			"file": "include/InputHandler.hpp",
+			"file_size": 614,
+			"file_write_time": 133033194108392457,
+			"settings":
+			{
+				"buffer_size": 611,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -42,7 +68,7 @@
 			"file": "include/GameSettings.hpp",
 			"settings":
 			{
-				"buffer_size": 158,
+				"buffer_size": 214,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -100,15 +126,15 @@
 	],
 	"file_history":
 	[
+		"/home/adam/REPOS/sdl2 new codebase/src/renderwindow.cpp",
+		"/home/adam/REPOS/sdl2 new codebase/include/RenderWindow.hpp",
 		"/home/adam/REPOS/sdl2 new codebase/src/entity.cpp",
 		"/home/adam/REPOS/sdl2 new codebase/include/GameSettings.hpp",
 		"/home/adam/REPOS/sdl2 new codebase/include/Utils.hpp",
 		"/home/adam/REPOS/sdl2 new codebase/include/Texture.hpp",
 		"/home/adam/REPOS/sdl2 new codebase/include/Snake.hpp",
-		"/home/adam/REPOS/sdl2 new codebase/include/RenderWindow.hpp",
 		"/home/adam/REPOS/sdl2 new codebase/include/Math.hpp",
 		"/home/adam/REPOS/sdl2 new codebase/include/Entity.hpp",
-		"/home/adam/REPOS/sdl2 new codebase/src/renderwindow.cpp",
 		"/home/adam/repos/SDL2game my/include/Snake.hpp",
 		"/home/adam/repos/SDL2game my/include/RenderWindow.hpp",
 		"/home/adam/repos/SDL2game my/include/Entity.hpp",
@@ -161,7 +187,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -170,101 +196,102 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1586,
+						"buffer_size": 1967,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								219,
+								219
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 97.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "include/RenderWindow.hpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 417,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								12,
-								12
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/renderwindow.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1159,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 424.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "include/GameSettings.hpp",
-					"semi_transient": false,
+					"buffer": 1,
+					"file": "src/movementhandler.cpp",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 158,
+						"buffer_size": 803,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								253,
+								253
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/eventhandler.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 486,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								238,
+								238
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 112.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "include/EventHandler.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 209,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								163,
+								163
 							]
 						],
 						"settings":
@@ -275,7 +302,64 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "include/InputHandler.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 611,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								370,
+								370
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "include/GameSettings.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 214,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								185,
+								185
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -314,7 +398,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 246.0
+		"height": 319.0
 	},
 	"output.find_results":
 	{

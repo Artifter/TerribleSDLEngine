@@ -7,8 +7,10 @@ const int screenW = 1280;
 const int screenH = 720;
 
 
+static bool gameRunning = true;
 
 
 
 
-const static char* title = "Snake Game";
+
+

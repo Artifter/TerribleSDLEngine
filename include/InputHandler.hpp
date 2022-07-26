@@ -1,14 +1,22 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <MovementHandler.hpp>
+#include "InputHandler.hpp"
+#include <vector>
+
 
 struct InputHandler
 {
 public:
 	
-	InputHandler(MovementHandler& p_movHandl);
-	void keyAction();
+	InputHandler();
+	void pressedKeyD();
+	void pressedKeyA();
+	void pressedKeySpace();
+	
+	void getPressedKey(SDL_Event event);
+	void getReleasedKey(SDL_Event event);
+
 	void handleKeyboardEvent();
 	
 	// bool isPressed(keyCode) {
@@ -21,13 +29,16 @@ public:
 
 
 
-	SDL_Event event;
 	// keyState[];
-
-
-
 private:
-	MovementHandler& playerMover;
+	
+	std::vector<SDL_Keycode> pressedKeys;
+	std::vector<SDL_Keycode> releasedKeys;
+
+
+
+
+
 	// bool aPressed;
 	// bool bPressed;
 	// const SDL_Keycode kbW = SDLK_w;

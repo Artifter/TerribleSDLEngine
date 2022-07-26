@@ -24,5 +24,5 @@ public:
 private:
 	SDL_Renderer* renderer = NULL;
 	SDL_Window* window = NULL;
-	const char* gameTitle = title;
+	const char* gameTitle = "Test app";
 };

@@ -7,7 +7,6 @@ const int screenW = 1280;
 const int screenH = 720;
 
 
-static bool gameRunning = true;
 
 
 

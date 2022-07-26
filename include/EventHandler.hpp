@@ -8,13 +8,12 @@
 class EventHandler
 {
 public:
-EventHandler();
-
 std::vector<SDL_Event>& getFrameEvents();
 void eventLoop(InputHandler& input);
 
 
+bool gameRunning = true;
+
 private:
 	SDL_Event event;
-
 };

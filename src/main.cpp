@@ -15,15 +15,6 @@
 
 
 
-std::vector<SDL_Event>& GetFrameEvents()
-{
-    static std::vector<SDL_Event> frame_events;
-    return frame_events;
-}
-
-
-
-
 int main(int argc, char* args[]){
 
 SDL_Init(SDL_INIT_VIDEO);
@@ -31,15 +22,11 @@ IMG_Init(IMG_INIT_PNG);
 
 //int facingDirection = 0;  //0 right, 1 down, 2 left, 3 up
 srand( time(NULL) );
-int score = 0;
-
-
-
-
-
 
 
 RenderWindow window;
+InputHandler input;
+EventHandler eventHandler;
 Entity playerEntity(screenW/2, screenH/2, window.loadTexture("res/gfx/rectangle.png"));
 
 
@@ -53,7 +40,7 @@ Entity cherry(rand()%(screenW-64), rand()% (screenH-64), window.loadTexture("res
 unsigned int lastTime = 0, currentTime;
 
 
-while (gameRunning)
+while (eventHandler.gameRunning)
 {
         
     currentTime = SDL_GetTicks();
@@ -65,6 +52,10 @@ while (gameRunning)
 	        window.render(cherry);
 	        window.render(playerEntity);
 	        window.display();
+			eventHandler.eventLoop(input);
+
+
+	        //end of the main loop
 			lastTime = currentTime;
         }
 

@@ -27,12 +27,11 @@ srand( time(NULL) );
 RenderWindow window;
 InputHandler input;
 EventHandler eventHandler;
+
+
+
+
 Entity playerEntity(screenW/2, screenH/2, window.loadTexture("res/gfx/rectangle.png"));
-
-
-
-
-
 Entity cherry(rand()%(screenW-64), rand()% (screenH-64), window.loadTexture("res/gfx/cherry.png"));
 
 
@@ -48,11 +47,14 @@ while (eventHandler.gameRunning)
        {
 
         //std::cout<< "frame passed: "<< currentTime <<std::endl;
+	        
+			eventHandler.eventLoop(input);
+			input.handleInputs();
+
 	        window.clear();
 	        window.render(cherry);
 	        window.render(playerEntity);
 	        window.display();
-			eventHandler.eventLoop(input);
 
 
 	        //end of the main loop

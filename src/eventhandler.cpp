@@ -5,8 +5,8 @@
 
 std::vector<SDL_Event>& EventHandler::getFrameEvents()
 {
-	static std::vector<SDL_Event> frame_events;
-	return frame_events;
+	static std::vector<SDL_Event> frameEvents;
+	return frameEvents;
 }
 
 
@@ -23,6 +23,7 @@ void EventHandler::eventLoop(InputHandler& input)
 				break;
 			case SDL_KEYDOWN:
 				input.getPressedKey(event);
+				break;
 			case SDL_KEYUP:
 				input.getReleasedKey(event);
 				break;

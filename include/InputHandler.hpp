@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include "InputHandler.hpp"
 #include <vector>
-
+#include <iostream>
 
 struct InputHandler
 {
@@ -13,11 +13,10 @@ public:
 	void pressedKeyD();
 	void pressedKeyA();
 	void pressedKeySpace();
-	
 	void getPressedKey(SDL_Event event);
 	void getReleasedKey(SDL_Event event);
 
-	void handleKeyboardEvent();
+	void handleInputs();
 	
 	// bool isPressed(keyCode) {
  //        return (keyState[keyCode] == PRESSED);
@@ -34,6 +33,7 @@ private:
 	
 	std::vector<SDL_Keycode> pressedKeys;
 	std::vector<SDL_Keycode> releasedKeys;
+	std::vector<int> testVector;
 
 
 

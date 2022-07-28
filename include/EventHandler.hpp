@@ -9,6 +9,7 @@ class EventHandler
 {
 public:
 std::vector<SDL_Event>& getFrameEvents();
+
 void eventLoop(InputHandler& input);
 
 
